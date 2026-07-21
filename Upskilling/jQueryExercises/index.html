@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery Exercises</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>jQuery Exercises</h1>
+
+    <!-- Exercise 1: jQuery Library Inclusion -->
+    <section>
+        <h2>1. jQuery Library Inclusion</h2>
+        <p id="helloWorld">Hello World!</p>
+    </section>
+
+    <!-- Exercise 2: The $() Function / Selecting Elements -->
+    <section>
+        <h2>2. Selecting Elements</h2>
+        <h1 id="ex2Heading">Original Heading</h1>
+        <p id="ex2ParaA">First paragraph (will be hidden).</p>
+        <p id="ex2ParaB">Second paragraph (stays visible).</p>
+        <button id="ex2Btn">Change heading &amp; hide a paragraph</button>
+    </section>
+
+    <!-- Exercise 3: jQuery Methods -->
+    <section>
+        <h2>3. Common Methods</h2>
+        <div class="box" id="box1">Box 1</div>
+        <div class="box" id="box2">Box 2</div>
+        <div class="box" id="box3">Box 3</div>
+        <button id="hideBtn">.hide()</button>
+        <button id="showBtn">.show()</button>
+        <button id="fadeOutBtn">.fadeOut()</button>
+        <button id="fadeInBtn">.fadeIn()</button>
+        <button id="toggleBtn">.toggle()</button>
+        <button id="chainBtn">.slideUp().delay().slideDown()</button>
+    </section>
+
+    <!-- Exercise 4: DOM Manipulation -->
+    <section>
+        <h2>4. Creating and Modifying Elements</h2>
+        <form id="listForm">
+            <input type="text" id="listInput" placeholder="Add a list item">
+            <button type="submit">Add</button>
+            <button type="button" id="removeAllBtn">Remove All</button>
+        </form>
+        <ul id="itemList"></ul>
+    </section>
+
+    <!-- Exercise 5: Working with Events -->
+    <section>
+        <h2>5. Handling User Interactions</h2>
+        <button id="colorBtn">Turn box red</button>
+        <div id="colorBox" class="color-box"></div>
+        <p class="hint">Double-click the box to reset it to white.</p>
+    </section>
+
+    <!-- Exercise 6: Event Helpers -->
+    <section>
+        <h2>6. Mouse and Keyboard Events</h2>
+        <div id="eventDiv" class="event-div">Hover, click, or double-click me</div>
+        <label for="keyInput">Type here (watch the div):</label>
+        <input type="text" id="keyInput">
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

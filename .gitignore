@@ -1,0 +1,9 @@
+bin/
+obj/
+.vs/
+.vscode/
+*.user
+*.class
+notes.md
+**/packages/
+Deepskilling/Module-4/NUnit and Moq/Parent project code.zip

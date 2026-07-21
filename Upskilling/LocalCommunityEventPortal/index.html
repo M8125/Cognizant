@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Local Community Event Portal</title>
+
+    <!-- CSS3 Exercise 5: Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- CSS3 Exercise 1: embedded <style> tag defines body background -->
+    <style>
+        body { background-color: #fafafa; }
+    </style>
+
+    <!-- CSS3 Exercise 1: external stylesheet holds all reusable styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <header id="mainHeader">
+        <div class="inner">
+            <!-- CSS3 Exercise 1: inline style makes this heading red (overridden visibly by header background, kept for the exercise) -->
+            <h1 style="color: red;">Local Community Event Portal</h1>
+            <nav>
+                <ul class="nav-list">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#events">Events</a></li>
+                    <li><a href="#register">Register</a></li>
+                    <li><a href="#admin">Admin</a></li>
+                    <li><a href="#bulletin">Bulletin</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main>
+        <div id="welcomeBanner">
+            <p>Welcome back, resident! You have <span class="highlight">2 unread event invites</span>.</p>
+            <span style="color: red; font-weight: bold;">Special offer: free parking at this weekend's fair!</span>
+        </div>
+
+        <section id="home">
+            <h2>Home</h2>
+            <p class="section-description">Welcome to the Local Community Event Portal.</p>
+        </section>
+
+        <!-- HTML5 Exercise 4 + CSS3 Exercise 3/8: photo gallery (static reference images) -->
+        <section id="events">
+            <h2>Events</h2>
+            <div class="gallery">
+                <div class="eventCard">
+                    <img class="event-photo" id="img1" src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400&h=250&fit=crop" alt="Spring Fair" title="Spring Fair - April 12" ondblclick="enlargeImage(this)">
+                </div>
+                <div class="eventCard">
+                    <img class="event-photo" id="img2" src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=250&fit=crop" alt="Food Truck Night" title="Food Truck Night - May 3" ondblclick="enlargeImage(this)">
+                </div>
+                <div class="eventCard">
+                    <img class="event-photo" id="img3" src="https://images.unsplash.com/photo-1618477388954-7852f32655ec?w=400&h=250&fit=crop" alt="Park Cleanup" title="Park Cleanup - May 18" ondblclick="enlargeImage(this)">
+                </div>
+                <div class="eventCard">
+                    <img class="event-photo" id="img4" src="https://images.unsplash.com/photo-1531058020387-3be344556be6?w=400&h=250&fit=crop" alt="Art Walk" title="Art Walk - June 7" ondblclick="enlargeImage(this)">
+                </div>
+                <div class="eventCard">
+                    <img class="event-photo" id="img5" src="https://images.unsplash.com/photo-1452626038306-9aae5e071dd3?w=400&h=250&fit=crop" alt="Charity Run" title="Charity Run - June 21" ondblclick="enlargeImage(this)">
+                </div>
+                <div class="eventCard">
+                    <img class="event-photo" id="img6" src="https://images.unsplash.com/photo-1512389142860-9c449e58a543?w=400&h=250&fit=crop" alt="Winter Market" title="Winter Market - December 5" ondblclick="enlargeImage(this)">
+                </div>
+            </div>
+
+            <!-- JS Exercise 6/7: events array + DOM rendering replaces hardcoded event details -->
+            <h3>Live Event List (JavaScript-rendered)</h3>
+            <label for="categoryFilter">Filter by category</label>
+            <select id="categoryFilter" onchange="filterEventsByCategory(this.value)">
+                <option value="">All</option>
+                <option value="fair">Fair</option>
+                <option value="food">Food</option>
+                <option value="volunteer">Volunteer</option>
+                <option value="art">Art</option>
+                <option value="sports">Sports</option>
+            </select>
+            <button type="button" onclick="loadEventsFromServer()">Reload from server</button>
+            <p id="loadingSpinner"></p>
+            <div id="eventsContainer"></div>
+
+            <!-- JS Exercise 4/11: add a new event into the JS-managed array via a validated form -->
+            <h3>Add an Event</h3>
+            <form id="addEventForm">
+                <label for="eventName">Name</label>
+                <input type="text" id="eventName" name="eventName">
+                <label for="eventDateInput">Date</label>
+                <input type="text" id="eventDateInput" name="eventDateInput" placeholder="e.g. July 4">
+                <label for="eventCategory">Category</label>
+                <select id="eventCategory" name="eventCategory">
+                    <option value="">-- Select --</option>
+                    <option value="fair">Fair</option>
+                    <option value="food">Food</option>
+                    <option value="volunteer">Volunteer</option>
+                    <option value="art">Art</option>
+                    <option value="sports">Sports</option>
+                </select>
+                <button type="submit">Add Event</button>
+                <span id="formError" style="color: red;"></span>
+            </form>
+
+            <!-- JS Exercise 11/12: simulated AJAX/fetch POST with setTimeout delay -->
+            <h3>Quick Register (event id 1-6)</h3>
+            <button type="button" id="registerBtn" onclick="submitRegistration(1)">Register for event #1</button>
+            <p id="registerStatus"></p>
+
+            <!-- HTML5 Exercise 7: Video Invite -->
+            <h3>Event Promo Video</h3>
+            <video width="320" controls oncanplay="videoReady()">
+                <source src="video/promo.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <p id="videoStatus"></p>
+
+            <!-- HTML5 Exercise 9: Geolocation -->
+            <h3>Find Nearby Events</h3>
+            <button type="button" onclick="findNearbyEvents()">Find Nearby Events</button>
+            <p id="locationStatus"></p>
+        </section>
+
+        <!-- HTML5 Exercise 5 + 6: Registration Form with Event Handling -->
+        <section id="register">
+            <h2>Event Registration</h2>
+            <form id="registrationForm" onsubmit="return showConfirmation()">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" class="highlightOnFocus" placeholder="Your full name" required autofocus>
+
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" class="highlightOnFocus" placeholder="you@example.com" required>
+
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone" class="highlightOnFocus" placeholder="555-123-4567" onblur="validatePhone()">
+                <span id="phoneError" style="color: red;"></span>
+
+                <label for="eventDate">Date</label>
+                <input type="date" id="eventDate" name="eventDate" class="highlightOnFocus" required>
+
+                <label for="eventType">Event Type</label>
+                <select id="eventType" name="eventType" class="highlightOnFocus" onchange="showEventFee()">
+                    <option value="">-- Select --</option>
+                    <option value="fair" data-fee="5">Spring Fair ($5)</option>
+                    <option value="foodtruck" data-fee="0">Food Truck Night (Free)</option>
+                    <option value="cleanup" data-fee="0">Park Cleanup (Free)</option>
+                    <option value="artwalk" data-fee="10">Art Walk ($10)</option>
+                </select>
+                <span id="eventFee"></span>
+
+                <label for="message">Message</label>
+                <textarea id="message" name="message" class="highlightOnFocus" rows="4" placeholder="Any notes for the organizers" onkeyup="countCharacters()"></textarea>
+                <span id="charCount">0 characters</span>
+
+                <button type="submit">Register</button>
+                <output id="confirmation" name="confirmation"></output>
+            </form>
+
+            <!-- HTML5 Exercise 8: Saving User Preferences -->
+            <h3>Preferences</h3>
+            <button type="button" onclick="clearPreferences()">Clear Preferences</button>
+        </section>
+
+        <!-- CSS3 Exercise 7: Table Styling -->
+        <section id="admin">
+            <h2>Events Admin Table</h2>
+            <table class="admin-table">
+                <tr><th>Event</th><th>Date</th><th>Registrations</th></tr>
+                <tr><td>Spring Fair</td><td>Apr 12</td><td>134</td></tr>
+                <tr><td>Food Truck Night</td><td>May 3</td><td>87</td></tr>
+                <tr><td>Park Cleanup</td><td>May 18</td><td>42</td></tr>
+                <tr><td>Art Walk</td><td>Jun 7</td><td>65</td></tr>
+                <tr><td>Charity Run</td><td>Jun 21</td><td>98</td></tr>
+            </table>
+        </section>
+
+        <!-- CSS3 Exercise 9: Multi-column bulletin -->
+        <section id="bulletin">
+            <h2>Community Bulletin</h2>
+            <div class="news-article">
+                <p>
+                    The city council is pleased to announce a full calendar of events this
+                    season. From the Spring Fair to the Park Cleanup, there's something for
+                    every resident. Volunteers are still needed for the Park Cleanup on May
+                    18th - gloves and bags will be provided on site. The Art Walk returns in
+                    June with twelve local artists confirmed so far. Food Truck Night will
+                    rotate vendors weekly, so check the portal for the latest lineup. As
+                    always, registration through the portal helps us plan attendance and
+                    parking. Thank you to everyone who volunteered last season - your help
+                    made these events possible.
+                </p>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>Contact</h2>
+            <p class="section-description">Reach the city council office for questions, or visit the
+                <!-- HTML5 Exercise 2: external link, opens in a new tab -->
+                <a href="https://www.usa.gov/state-government" target="_blank" rel="noopener">city council's official site</a>.
+            </p>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="inner">
+            <p>&copy; 2026 City Council Community Events</p>
+        </div>
+    </footer>
+
+    <!-- JS Exercise 14: jQuery CDN, used by the teaser below -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- JS Exercise 1: external script file instead of inline <script> -->
+    <script src="main.js"></script>
+    <script>
+        // JS Exercise 14: jQuery teaser - fades the status message in/out instead of an instant text swap
+        function flashRegisterStatus(text) {
+            $('#registerStatus').fadeOut(150, function () {
+                $(this).text(text).fadeIn(150);
+            });
+        }
+    </script>
+</body>
+</html>
